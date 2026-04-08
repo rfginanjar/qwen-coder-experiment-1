@@ -1,0 +1,74 @@
+{
+  "handoff": {
+    "id": "task-db-001",
+    "timestamp": "2024-01-15T10:25:00Z",
+    "layer_origin": "tasks",
+    "layer_target": "tasks",
+    "agent_role": "coordinator",
+    "status": "done"
+  },
+  "context": {
+    "project_id": "todoapp-supabase",
+    "sprint_id": "sprint1",
+    "token_budget": 4096,
+    "token_used": 512,
+    "compression_applied": false
+  },
+  "payload": {
+    "type": "work_unit",
+    "ref": "tasks/sprint1/task-db-001.md",
+    "content": {
+      "task_name": "Database Schema and RLS Setup",
+      "priority": 3,
+      "estimated_tokens": 600,
+      "inputs": [
+        { "source": "handoff-todo-001", "field": "data_model" },
+        { "source": "handoff-todo-001", "field": "operations.security" }
+      ],
+      "outputs": [
+        "SQL migration file for todos table",
+        "Row Level Security policies configured",
+        "Database schema documented"
+      ],
+      "acceptance_criteria": [
+        "todos table created with correct schema",
+        "RLS policies prevent cross-user access",
+        "Migration can be run in Supabase SQL editor",
+        "Schema matches handoff-todo-001 specification"
+      ],
+      "constraints": [
+        "Must use UUID for primary keys",
+        "user_id must reference auth.users",
+        "RLS must be enabled and enforced"
+      ]
+    },
+    "dependencies": ["task-setup-001"],
+    "invalidates": []
+  },
+  "reasoning": {
+    "confidence": 0.97,
+    "rationale_ref": "handoff-todo-001",
+    "assumptions": [
+      "Supabase project exists",
+      "User has access to Supabase SQL editor or CLI"
+    ],
+    "flags": []
+  },
+  "layer_schemas": {
+    "tasks": {
+      "decision": "Provide SQL migration for reproducible schema setup",
+      "constraints": [
+        "Must include RLS policies",
+        "Must be idempotent (safe to run multiple times)"
+      ],
+      "rationale": "SQL migrations ensure consistent schema across environments",
+      "affects": ["database", "RLS policies", "data security"]
+    }
+  },
+  "meta": {
+    "taxonomy_version": "0.1",
+    "substrate_version": "0.1.0",
+    "human_review_required": true,
+    "notes": "Database setup task - requires manual execution in Supabase dashboard."
+  }
+}

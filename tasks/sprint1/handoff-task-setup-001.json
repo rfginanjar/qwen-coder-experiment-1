@@ -1,0 +1,75 @@
+{
+  "handoff": {
+    "id": "task-setup-001",
+    "timestamp": "2024-01-15T10:15:00Z",
+    "layer_origin": "tasks",
+    "layer_target": "tasks",
+    "agent_role": "coordinator",
+    "status": "done"
+  },
+  "context": {
+    "project_id": "todoapp-supabase",
+    "sprint_id": "sprint1",
+    "token_budget": 4096,
+    "token_used": 512,
+    "compression_applied": false
+  },
+  "payload": {
+    "type": "work_unit",
+    "ref": "tasks/sprint1/task-setup-001.md",
+    "content": {
+      "task_name": "Project Setup and Configuration",
+      "priority": 1,
+      "estimated_tokens": 800,
+      "inputs": [
+        { "source": "handoff-arch-001", "field": "boundaries.client.technology" },
+        { "source": "handoff-arch-001", "field": "boundaries.server.technology" }
+      ],
+      "outputs": [
+        "Initialized Vite + React project",
+        "Installed dependencies (React, Supabase client, React Query, Tailwind CSS)",
+        "Configured environment variables template",
+        "Created basic project structure"
+      ],
+      "acceptance_criteria": [
+        "npm run dev starts without errors",
+        "Tailwind CSS classes are applied correctly",
+        "Supabase client is initialized with env vars",
+        "React Query provider wraps the app"
+      ],
+      "constraints": [
+        "Must use Vite as build tool",
+        "Must use npm as package manager",
+        "Environment variables must be in .env.example format"
+      ]
+    },
+    "dependencies": [],
+    "invalidates": []
+  },
+  "reasoning": {
+    "confidence": 0.99,
+    "rationale_ref": "handoff-arch-001",
+    "assumptions": [
+      "Node.js 18+ is available",
+      "npm is installed globally"
+    ],
+    "flags": []
+  },
+  "layer_schemas": {
+    "tasks": {
+      "decision": "Setup project foundation before implementing features",
+      "constraints": [
+        "Follow Vite React template structure",
+        "Configure Tailwind CSS per official docs"
+      ],
+      "rationale": "Foundation must be solid before building features",
+      "affects": ["all subsequent tasks"]
+    }
+  },
+  "meta": {
+    "taxonomy_version": "0.1",
+    "substrate_version": "0.1.0",
+    "human_review_required": false,
+    "notes": "First task in sprint1 - project initialization. Blocks all other tasks."
+  }
+}
