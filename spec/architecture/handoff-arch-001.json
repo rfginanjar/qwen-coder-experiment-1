@@ -1,0 +1,75 @@
+{
+  "handoff": {
+    "id": "arch-001",
+    "timestamp": "2024-01-15T10:00:00Z",
+    "layer_origin": "spec",
+    "layer_target": "tasks",
+    "agent_role": "planner",
+    "status": "done"
+  },
+  "context": {
+    "project_id": "todoapp-supabase",
+    "sprint_id": null,
+    "token_budget": 4096,
+    "token_used": 1024,
+    "compression_applied": false
+  },
+  "payload": {
+    "type": "decision",
+    "ref": "spec/architecture/system-boundaries.md",
+    "content": {
+      "system_name": "TodoApp",
+      "architecture_style": "client-server with BaaS",
+      "boundaries": {
+        "client": {
+          "technology": "React 18 + Vite",
+          "responsibility": "UI rendering, user interaction, local state management",
+          "state_management": "React Query + Context API"
+        },
+        "server": {
+          "technology": "Supabase (PostgreSQL + Auth + Realtime)",
+          "responsibility": "Data persistence, authentication, authorization, API endpoints",
+          "security_model": "Row Level Security (RLS)"
+        }
+      },
+      "data_flow": [
+        "User interacts with React UI",
+        "React Query triggers Supabase client call",
+        "Supabase validates auth token and RLS policies",
+        "Database operation executes",
+        "Response flows back through React Query cache",
+        "UI re-renders with updated data"
+      ]
+    },
+    "dependencies": [],
+    "invalidates": []
+  },
+  "reasoning": {
+    "confidence": 0.95,
+    "rationale_ref": "plan.md",
+    "assumptions": [
+      "Users have modern browsers supporting ES2020+",
+      "Supabase free tier is sufficient for initial load",
+      "Single-page application is acceptable for this use case"
+    ],
+    "flags": []
+  },
+  "layer_schemas": {
+    "spec": {
+      "decision": "Use Supabase as BaaS to eliminate backend boilerplate",
+      "constraints": [
+        "Must use Row Level Security for data isolation",
+        "Must support email/password authentication",
+        "Frontend must be deployable to Vercel"
+      ],
+      "rationale": "Minimizes development time while maintaining production-ready security and scalability",
+      "affects": ["auth", "todos", "database-schema"]
+    }
+  },
+  "meta": {
+    "taxonomy_version": "0.1",
+    "substrate_version": "0.1.0",
+    "human_review_required": true,
+    "notes": "Architecture handoff from Planner to Coordinator. Ready for task breakdown."
+  }
+}

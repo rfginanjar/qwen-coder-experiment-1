@@ -1,0 +1,101 @@
+{
+  "handoff": {
+    "id": "todo-001",
+    "timestamp": "2024-01-15T10:10:00Z",
+    "layer_origin": "spec",
+    "layer_target": "tasks",
+    "agent_role": "planner",
+    "status": "done"
+  },
+  "context": {
+    "project_id": "todoapp-supabase",
+    "sprint_id": "sprint1",
+    "token_budget": 4096,
+    "token_used": 768,
+    "compression_applied": false
+  },
+  "payload": {
+    "type": "decision",
+    "ref": "spec/api/todo-contract.md",
+    "content": {
+      "component": "Todos",
+      "contract_type": "behavioral",
+      "data_model": {
+        "table": "todos",
+        "fields": [
+          { "name": "id", "type": "uuid", "primary_key": true },
+          { "name": "user_id", "type": "uuid", "foreign_key": "auth.users.id" },
+          { "name": "title", "type": "string", "nullable": false },
+          { "name": "completed", "type": "boolean", "default": false },
+          { "name": "created_at", "type": "timestamp", "default": "now()" },
+          { "name": "updated_at", "type": "timestamp", "default": "now()" }
+        ]
+      },
+      "operations": [
+        {
+          "name": "create",
+          "input": { "title": "string" },
+          "output": { "todo": "Todo object" },
+          "security": "RLS: user_id must match auth.uid()"
+        },
+        {
+          "name": "read",
+          "input": { "filters": "optional" },
+          "output": { "todos": "Todo[] array" },
+          "security": "RLS: only return todos where user_id = auth.uid()"
+        },
+        {
+          "name": "update",
+          "input": { "id": "uuid", "changes": "Partial<Todo>" },
+          "output": { "todo": "Todo object" },
+          "security": "RLS: user_id must match auth.uid()"
+        },
+        {
+          "name": "delete",
+          "input": { "id": "uuid" },
+          "output": { "success": "boolean" },
+          "security": "RLS: user_id must match auth.uid()"
+        }
+      ],
+      "behaviors": [
+        "User can create a new todo with a title",
+        "User can view all their todos",
+        "User can mark todo as complete/incomplete",
+        "User can edit todo title",
+        "User can delete a todo",
+        "User can filter todos by status (all/active/completed)",
+        "Todos are private to each user (enforced by RLS)"
+      ]
+    },
+    "dependencies": ["auth-001"],
+    "invalidates": []
+  },
+  "reasoning": {
+    "confidence": 0.97,
+    "rationale_ref": "plan.md",
+    "assumptions": [
+      "Supabase PostgreSQL supports UUID primary keys",
+      "Row Level Security policies can be configured via Supabase dashboard or migrations",
+      "React Query can handle optimistic updates for better UX"
+    ],
+    "flags": []
+  },
+  "layer_schemas": {
+    "spec": {
+      "decision": "Use single 'todos' table with RLS for data isolation",
+      "constraints": [
+        "Every todo must belong to a user (user_id not nullable)",
+        "RLS policies must prevent cross-user data access",
+        "Support filtering by completion status"
+      ],
+      "rationale": "Simple schema with RLS provides security without complex backend logic",
+      "affects": ["todo-list", "todo-item", "todo-form", "filter-controls"]
+    }
+  },
+  "meta": {
+    "taxonomy_version": "0.1",
+    "substrate_version": "0.1.0",
+    "human_review_required": true,
+    "notes": "Todo CRUD contract handoff from Planner to Coordinator. Defines data model and operations."
+  }
+}

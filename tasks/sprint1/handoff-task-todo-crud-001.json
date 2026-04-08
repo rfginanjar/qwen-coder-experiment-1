@@ -1,0 +1,83 @@
+{
+  "handoff": {
+    "id": "task-todo-crud-001",
+    "timestamp": "2024-01-15T10:30:00Z",
+    "layer_origin": "tasks",
+    "layer_target": "tasks",
+    "agent_role": "coordinator",
+    "status": "done"
+  },
+  "context": {
+    "project_id": "todoapp-supabase",
+    "sprint_id": "sprint1",
+    "token_budget": 4096,
+    "token_used": 896,
+    "compression_applied": false
+  },
+  "payload": {
+    "type": "work_unit",
+    "ref": "tasks/sprint1/task-todo-crud-001.md",
+    "content": {
+      "task_name": "Todo CRUD Implementation",
+      "priority": 4,
+      "estimated_tokens": 1600,
+      "inputs": [
+        { "source": "handoff-todo-001", "field": "operations" },
+        { "source": "handoff-todo-001", "field": "behaviors" },
+        { "source": "task-auth-001", "field": "outputs" },
+        { "source": "task-db-001", "field": "outputs" }
+      ],
+      "outputs": [
+        "TodoList component with React Query",
+        "TodoItem component with edit/delete",
+        "TodoForm component for create/edit",
+        "Filter controls (all/active/completed)",
+        "Custom hooks for todo operations"
+      ],
+      "acceptance_criteria": [
+        "User can create new todos",
+        "User can view all their todos",
+        "User can mark todos as complete/incomplete",
+        "User can edit todo titles",
+        "User can delete todos",
+        "User can filter by status",
+        "All operations respect RLS (only user's own todos)"
+      ],
+      "constraints": [
+        "Must use React Query for data fetching",
+        "Must use optimistic updates for better UX",
+        "Must handle loading and error states",
+        "Must work with authenticated user only"
+      ]
+    },
+    "dependencies": ["task-auth-001", "task-db-001"],
+    "invalidates": []
+  },
+  "reasoning": {
+    "confidence": 0.96,
+    "rationale_ref": "handoff-todo-001",
+    "assumptions": [
+      "Auth context provides current user",
+      "Database schema is ready",
+      "React Query is configured"
+    ],
+    "flags": []
+  },
+  "layer_schemas": {
+    "tasks": {
+      "decision": "Implement CRUD as reusable components with React Query",
+      "constraints": [
+        "Separate data logic from UI components",
+        "Use optimistic updates for instant feedback"
+      ],
+      "rationale": "React Query provides caching, background refetch, and optimistic updates out of the box",
+      "affects": ["TodoList", "TodoItem", "TodoForm", "FilterControls"]
+    }
+  },
+  "meta": {
+    "taxonomy_version": "0.1",
+    "substrate_version": "0.1.0",
+    "human_review_required": false,
+    "notes": "Final task in sprint1 - completes MVP functionality."
+  }
+}

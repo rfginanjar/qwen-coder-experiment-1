@@ -1,0 +1,79 @@
+{
+  "handoff": {
+    "id": "task-auth-001",
+    "timestamp": "2024-01-15T10:20:00Z",
+    "layer_origin": "tasks",
+    "layer_target": "tasks",
+    "agent_role": "coordinator",
+    "status": "done"
+  },
+  "context": {
+    "project_id": "todoapp-supabase",
+    "sprint_id": "sprint1",
+    "token_budget": 4096,
+    "token_used": 640,
+    "compression_applied": false
+  },
+  "payload": {
+    "type": "work_unit",
+    "ref": "tasks/sprint1/task-auth-001.md",
+    "content": {
+      "task_name": "Authentication Implementation",
+      "priority": 2,
+      "estimated_tokens": 1200,
+      "inputs": [
+        { "source": "handoff-auth-001", "field": "inputs" },
+        { "source": "handoff-auth-001", "field": "outputs" },
+        { "source": "handoff-auth-001", "field": "behaviors" },
+        { "source": "task-setup-001", "field": "outputs" }
+      ],
+      "outputs": [
+        "Login page component",
+        "Signup page component",
+        "AuthContext for session management",
+        "Protected route wrapper",
+        "Logout functionality"
+      ],
+      "acceptance_criteria": [
+        "User can sign up with email/password",
+        "User can log in with valid credentials",
+        "User can log out",
+        "Session persists on page refresh",
+        "Unauthenticated users are redirected to login when accessing protected routes"
+      ],
+      "constraints": [
+        "Must use Supabase Auth only (no OAuth)",
+        "Must handle errors with user-friendly messages",
+        "Password minimum 6 characters"
+      ]
+    },
+    "dependencies": ["task-setup-001"],
+    "invalidates": []
+  },
+  "reasoning": {
+    "confidence": 0.98,
+    "rationale_ref": "handoff-auth-001",
+    "assumptions": [
+      "Supabase project is created and configured",
+      "Environment variables are set correctly"
+    ],
+    "flags": []
+  },
+  "layer_schemas": {
+    "tasks": {
+      "decision": "Implement auth as reusable context and components",
+      "constraints": [
+        "Separate UI from auth logic",
+        "Use React hooks for auth state"
+      ],
+      "rationale": "Context pattern enables clean auth state management across app",
+      "affects": ["LoginPage", "SignupPage", "ProtectedRoute", "App routing"]
+    }
+  },
+  "meta": {
+    "taxonomy_version": "0.1",
+    "substrate_version": "0.1.0",
+    "human_review_required": false,
+    "notes": "Second task in sprint1 - depends on project setup completion."
+  }
+}

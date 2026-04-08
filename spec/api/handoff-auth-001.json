@@ -1,0 +1,74 @@
+{
+  "handoff": {
+    "id": "auth-001",
+    "timestamp": "2024-01-15T10:05:00Z",
+    "layer_origin": "spec",
+    "layer_target": "tasks",
+    "agent_role": "planner",
+    "status": "done"
+  },
+  "context": {
+    "project_id": "todoapp-supabase",
+    "sprint_id": "sprint1",
+    "token_budget": 4096,
+    "token_used": 512,
+    "compression_applied": false
+  },
+  "payload": {
+    "type": "decision",
+    "ref": "spec/api/auth-contract.md",
+    "content": {
+      "component": "Authentication",
+      "contract_type": "behavioral",
+      "inputs": [
+        { "name": "email", "type": "string", "validation": "email format" },
+        { "name": "password", "type": "string", "validation": "min 6 characters" }
+      ],
+      "outputs": [
+        { "name": "user", "type": "object | null", "description": "Authenticated user object or null" },
+        { "name": "session", "type": "object | null", "description": "Active session or null" },
+        { "name": "error", "type": "string | null", "description": "Error message if authentication fails" }
+      ],
+      "behaviors": [
+        "User can sign up with email/password",
+        "User can log in with email/password",
+        "User can log out (clear session)",
+        "Session persists across page refreshes",
+        "Protected routes redirect to login if no session"
+      ],
+      "side_effects": [
+        "Creates user record in Supabase auth.users",
+        "Sets auth token in browser storage",
+        "Triggers React Query cache invalidation on logout"
+      ]
+    },
+    "dependencies": [],
+    "invalidates": []
+  },
+  "reasoning": {
+    "confidence": 0.98,
+    "rationale_ref": "plan.md",
+    "assumptions": [
+      "Supabase Auth supports email/password out of the box",
+      "Browser localStorage is acceptable for session persistence"
+    ],
+    "flags": []
+  },
+  "layer_schemas": {
+    "spec": {
+      "decision": "Use Supabase Auth for all authentication operations",
+      "constraints": [
+        "Must support email/password only (no OAuth for MVP)",
+        "Must handle auth errors gracefully with user-friendly messages"
+      ],
+      "rationale": "Supabase Auth provides secure, production-ready authentication without custom backend code",
+      "affects": ["login-page", "signup-page", "protected-routes", "user-context"]
+    }
+  },
+  "meta": {
+    "taxonomy_version": "0.1",
+    "substrate_version": "0.1.0",
+    "human_review_required": true,
+    "notes": "Auth contract handoff from Planner to Coordinator. Defines behavioral expectations for auth feature."
+  }
+}
